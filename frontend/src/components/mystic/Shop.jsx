@@ -1,0 +1,20 @@
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Gem, CircleDot } from 'lucide-react';
+import { products, currency } from '../../content/site';
+import { Action, Chapter, Reveal, Star } from './Shared';
+
+const categories = ['All Treasures', 'Crystal Bracelets', 'Crystals & Stones', 'Tarot & Spiritual Products'];
+
+export const Shop = ({ onBook }) => {
+  const [category, setCategory] = useState('All Treasures');
+  const showStones = category === 'All Treasures' || category === 'Crystals & Stones';
+  return <section id="shop" className="shop section-pad" aria-labelledby="shop-title"><div className="page-width">
+    <Reveal><Chapter number="05">LITTLE OBJECTS. PERSONAL MEANING.</Chapter><div className="section-heading"><h2 id="shop-title" className="display-title" data-testid="shop-title">A little intention,<br/><em>in your everyday.</em></h2><div><p data-testid="shop-description">The Mystic Tattva Shop. Thoughtful crystals and spiritual objects to make your space feel more like you.</p><span className="preview-label" data-testid="shop-preview-label">CATALOG PREVIEW · SAMPLE PHOTOGRAPHY</span></div></div></Reveal>
+    <div className="shop-filters" role="group" aria-label="Shop categories">{categories.map((c, i) => <button key={c} data-testid={`shop-filter-${i}`} onClick={() => setCategory(c)} aria-pressed={category === c} className={category === c ? 'active' : ''}>{c}{category === c && <Star size={13}/>}</button>)}</div>
+    <AnimatePresence mode="wait"><motion.div key={showStones ? 'stones' : category} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.22 }}>
+      {showStones ? <div className="product-grid">{products.map((product) => <article key={product.id} className="product-card" data-testid={`product-${product.id}`}><div className={`product-image product-image-${product.id}`}><img src={product.image} width="500" height="600" loading="lazy" alt={`${product.name} — illustrative sample, not actual stock`} data-testid={`product-${product.id}-image`}/><span className="product-image-star" aria-hidden="true"><Star size={18}/></span></div><span className="product-intention" data-testid={`product-${product.id}-intention`}>{product.intention}</span><h3 data-testid={`product-${product.id}-title`}>{product.name}</h3><p data-testid={`product-${product.id}-description`}>{product.description}</p><div className="product-bottom"><span data-testid={`product-${product.id}-price`}>{product.price === null ? 'Price on enquiry' : currency(product.price)}</span><Action variant="text" testId={`product-${product.id}-enquire`} onClick={() => onBook('Shop Enquiry', `I’m interested in ${product.name}. Please share pricing, options and availability.`)}>Enquire / Buy</Action></div></article>)}</div> : <div className="shop-coming-soon" data-testid="shop-category-preview">{category === 'Crystal Bracelets' ? <CircleDot size={50} strokeWidth={0.8}/> : <Gem size={50} strokeWidth={0.8}/>}<span className="preview-label" data-testid="shop-category-status">COLLECTION PREVIEW</span><h3 data-testid="shop-category-title">{category === 'Crystal Bracelets' ? 'A little intention, worn daily.' : 'Objects for your own little rituals.'}</h3><p data-testid="shop-category-copy">Our {category.toLowerCase()} collection is taking shape. Enquire to learn about upcoming pieces.</p><Action variant="indigo" testId="shop-category-enquire" onClick={() => onBook('Shop Enquiry', `Please share more about the upcoming ${category} collection.`)}>Enquire about this collection</Action></div>}
+    </motion.div></AnimatePresence>
+    <p className="shop-note" data-testid="shop-note"><Gem size={15}/>Natural objects for personal meaning and enjoyment. No medical benefits or guaranteed outcomes are claimed. Prices and availability are confirmed on enquiry.</p>
+  </div></section>;
+};
