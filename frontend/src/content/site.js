@@ -1,11 +1,11 @@
 // Edit brand copy, packages, course previews and catalog items here.
-// Contact destinations intentionally remain empty until Bhavana supplies them.
+// Confirmed business contact; email remains empty until supplied.
 export const brand = {
   name: 'Mystic Tattva',
   tagline: 'Find Your Path, Live with Intent.',
   founder: 'Bhavana',
   email: '',
-  whatsapp: '',
+  whatsapp: '+91 9336869201', // Confirmed business WhatsApp; shared by all enquiry links.
   heroImage: '/images/mystic-hero.webp',
   about: 'I’m Bhavana, a Tarot Reader, Numerologist and Life Coach. I created Mystic Tattva as a space to pause, feel heard, and reconnect with your own inner wisdom. Together, we explore what’s on your mind with empathy, an open heart, and grounded, practical guidance.',
 };
